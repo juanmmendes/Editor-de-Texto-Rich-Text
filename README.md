@@ -20,7 +20,6 @@ rich-text-editor/
 ├── js/
 │   └── script.js       # Lógica JavaScript
 ├── index.html          # Estrutura HTML principal
-├── melhorias-futuras.md # Sugestões para expansão
 └── README.md           # Este arquivo
 ```
 
