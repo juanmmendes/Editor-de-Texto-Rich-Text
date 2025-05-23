@@ -1,0 +1,680 @@
+/* 
+ * Rich Text Editor - Folha de Estilos
+ * Desenvolvido com HTML5, CSS3 e JavaScript puro
+ * Suporte a dark/light mode e design responsivo
+ */
+
+/* ===== Variáveis e Reset ===== */
+:root {
+    /* Cores - Light Mode */
+    --primary-color: #4a6cf7;
+    --primary-hover: #3a5ce5;
+    --secondary-color: #6c757d;
+    --text-color: #333333;
+    --bg-color: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --border-color: #dee2e6;
+    --toolbar-bg: #f1f3f5;
+    --editor-bg: #ffffff;
+    --btn-hover: #e9ecef;
+    --dialog-bg: #ffffff;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --code-bg: #f5f5f5;
+    --blockquote-bg: #f8f9fa;
+    --blockquote-border: #ced4da;
+    --selection-bg: rgba(74, 108, 247, 0.2);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    
+    /* Espaçamento */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    
+    /* Tipografia */
+    --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+    --font-size-sm: 0.875rem;
+    --font-size-md: 1rem;
+    --font-size-lg: 1.25rem;
+    --font-size-xl: 1.5rem;
+    --font-size-xxl: 2rem;
+    
+    /* Bordas e Sombras */
+    --border-radius-sm: 0.25rem;
+    --border-radius-md: 0.375rem;
+    --border-radius-lg: 0.5rem;
+    --box-shadow: 0 0.125rem 0.25rem var(--shadow-color);
+    --box-shadow-lg: 0 0.5rem 1rem var(--shadow-color);
+    
+    /* Transições */
+    --transition-speed: 0.2s;
+    --transition-timing: ease-in-out;
+}
+
+/* Dark Mode */
+.dark-mode {
+    --primary-color: #5d7bf9;
+    --primary-hover: #6d8bff;
+    --secondary-color: #adb5bd;
+    --text-color: #e9ecef;
+    --bg-color: #121212;
+    --bg-secondary: #1e1e1e;
+    --border-color: #343a40;
+    --toolbar-bg: #2a2a2a;
+    --editor-bg: #1e1e1e;
+    --btn-hover: #343a40;
+    --dialog-bg: #2a2a2a;
+    --success-color: #48c774;
+    --danger-color: #f14668;
+    --code-bg: #2d2d2d;
+    --blockquote-bg: #2a2a2a;
+    --blockquote-border: #444444;
+    --selection-bg: rgba(93, 123, 249, 0.3);
+    --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Reset e Estilos Básicos */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    height: 100%;
+}
+
+body {
+    font-family: var(--font-family);
+    font-size: var(--font-size-md);
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    min-height: 100vh;
+    transition: background-color var(--transition-speed) var(--transition-timing),
+                color var(--transition-speed) var(--transition-timing);
+}
+
+/* ===== Layout Principal ===== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.app-title {
+    font-size: var(--font-size-xl);
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+.editor-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+}
+
+.app-footer {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    font-size: var(--font-size-sm);
+    color: var(--secondary-color);
+}
+
+/* ===== Botão de Tema ===== */
+.theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: background-color var(--transition-speed) var(--transition-timing);
+}
+
+.theme-toggle:hover {
+    background-color: var(--btn-hover);
+}
+
+.theme-toggle:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* ===== Barra de Ferramentas ===== */
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background-color: var(--toolbar-bg);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.toolbar-group {
+    display: flex;
+    border-radius: var(--border-radius-md);
+    background-color: var(--bg-color);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+}
+
+.toolbar-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: background-color var(--transition-speed) var(--transition-timing),
+                color var(--transition-speed) var(--transition-timing);
+    position: relative;
+}
+
+.toolbar-btn:hover {
+    background-color: var(--btn-hover);
+}
+
+.toolbar-btn:focus {
+    outline: none;
+    background-color: var(--btn-hover);
+}
+
+.toolbar-btn.active {
+    color: var(--primary-color);
+    background-color: var(--btn-hover);
+}
+
+/* ===== Dropdown ===== */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: 0 var(--spacing-sm);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 10;
+    min-width: 160px;
+    background-color: var(--dialog-bg);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--box-shadow-lg);
+    display: none;
+    padding: var(--spacing-xs) 0;
+    margin-top: var(--spacing-xs);
+    border: 1px solid var(--border-color);
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: var(--spacing-sm) var(--spacing-md);
+    text-align: left;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: background-color var(--transition-speed) var(--transition-timing);
+}
+
+.dropdown-item:hover {
+    background-color: var(--btn-hover);
+}
+
+/* Estilos para o seletor de cores */
+.color-dropdown-menu {
+    display: none;
+    flex-wrap: wrap;
+    width: 150px;
+    padding: 8px;
+}
+
+.color-dropdown-menu.show {
+    display: flex;
+}
+
+.color-item {
+    width: 24px;
+    height: 24px;
+    margin: 4px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.color-item:hover {
+    transform: scale(1.1);
+}
+
+/* Estilos para o seletor de fontes */
+#font-roboto {
+    font-family: 'Roboto', sans-serif;
+}
+
+#font-arial {
+    font-family: Arial, sans-serif;
+}
+
+#font-times {
+    font-family: 'Times New Roman', serif;
+}
+
+#font-courier {
+    font-family: 'Courier New', monospace;
+}
+
+#font-georgia {
+    font-family: Georgia, serif;
+}
+
+/* ===== Área Editável ===== */
+.editor-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--spacing-md);
+    background-color: var(--editor-bg);
+}
+
+.editor {
+    min-height: 300px;
+    padding: var(--spacing-md);
+    background-color: var(--editor-bg);
+    border-radius: var(--border-radius-md);
+    outline: none;
+    box-shadow: var(--box-shadow);
+    transition: box-shadow var(--transition-speed) var(--transition-timing);
+}
+
+.editor:focus {
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+/* Estilos para o conteúdo editável */
+.editor h1 {
+    font-size: var(--font-size-xxl);
+    margin-bottom: var(--spacing-md);
+    color: var(--text-color);
+}
+
+.editor h2 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-md);
+    color: var(--text-color);
+}
+
+.editor h3 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-md);
+    color: var(--text-color);
+}
+
+.editor p {
+    margin-bottom: var(--spacing-md);
+}
+
+.editor blockquote {
+    border-left: 4px solid var(--blockquote-border);
+    padding: var(--spacing-md);
+    margin: var(--spacing-md) 0;
+    background-color: var(--blockquote-bg);
+    font-style: italic;
+}
+
+.editor pre {
+    background-color: var(--code-bg);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-md);
+    overflow-x: auto;
+    margin: var(--spacing-md) 0;
+    font-family: monospace;
+}
+
+.editor code {
+    font-family: monospace;
+    background-color: var(--code-bg);
+    padding: 0.2em 0.4em;
+    border-radius: var(--border-radius-sm);
+}
+
+.editor ul, .editor ol {
+    margin: var(--spacing-md) 0;
+    padding-left: var(--spacing-xl);
+}
+
+.editor a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.editor a:hover {
+    text-decoration: underline;
+}
+
+/* Estilo para seleção de texto */
+.editor ::selection {
+    background-color: var(--selection-bg);
+}
+
+/* ===== Barra de Ações ===== */
+.action-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md);
+    background-color: var(--toolbar-bg);
+    border-top: 1px solid var(--border-color);
+}
+
+.export-options {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.action-btn {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: background-color var(--transition-speed) var(--transition-timing);
+}
+
+.action-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+.status-info {
+    font-size: var(--font-size-sm);
+    color: var(--secondary-color);
+}
+
+/* ===== Diálogo ===== */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 100;
+}
+
+.overlay.show {
+    display: block;
+}
+
+.dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--dialog-bg);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--box-shadow-lg);
+    width: 90%;
+    max-width: 500px;
+    z-index: 101;
+    display: none;
+}
+
+.dialog.show {
+    display: block;
+}
+
+.dialog-content {
+    padding: var(--spacing-lg);
+}
+
+.dialog-title {
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-lg);
+    color: var(--text-color);
+}
+
+.dialog-body {
+    margin-bottom: var(--spacing-lg);
+}
+
+.dialog-body label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-color);
+}
+
+.dialog-body input {
+    width: 100%;
+    padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.dialog-body input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.dialog-separator {
+    text-align: center;
+    margin: var(--spacing-md) 0;
+    color: var(--secondary-color);
+    position: relative;
+}
+
+.dialog-separator::before,
+.dialog-separator::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background-color: var(--border-color);
+}
+
+.dialog-separator::before {
+    left: 0;
+}
+
+.dialog-separator::after {
+    right: 0;
+}
+
+.file-upload-label {
+    display: inline-block;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+    transition: background-color var(--transition-speed) var(--transition-timing);
+}
+
+.file-upload-label:hover {
+    background-color: var(--btn-hover);
+}
+
+.file-upload-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+.image-preview {
+    margin: var(--spacing-md) 0;
+    text-align: center;
+    min-height: 100px;
+    border: 1px dashed var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-preview img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: var(--border-radius-sm);
+}
+
+.dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-sm);
+}
+
+.dialog-btn {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    border: none;
+    transition: background-color var(--transition-speed) var(--transition-timing);
+}
+
+.cancel-btn {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.cancel-btn:hover {
+    background-color: #5a6268;
+}
+
+.confirm-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.confirm-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+/* ===== Elementos de Acessibilidade ===== */
+kbd {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+    color: var(--text-color);
+    display: inline-block;
+    font-size: var(--font-size-sm);
+    line-height: 1;
+    padding: 0.2em 0.4em;
+    margin: 0 0.1em;
+}
+
+/* ===== Responsividade ===== */
+@media (max-width: 768px) {
+    .toolbar {
+        gap: var(--spacing-xs);
+        padding: var(--spacing-sm);
+    }
+    
+    .toolbar-group {
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .toolbar-btn {
+        min-width: 36px;
+        height: 36px;
+    }
+    
+    .action-bar {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    
+    .export-options {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .status-info {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .app-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-sm);
+    }
+    
+    .theme-toggle {
+        position: absolute;
+        top: var(--spacing-md);
+        right: var(--spacing-md);
+    }
+    
+    .toolbar {
+        overflow-x: auto;
+        white-space: nowrap;
+        justify-content: flex-start;
+        padding: var(--spacing-xs);
+    }
+    
+    .toolbar-group {
+        flex-shrink: 0;
+    }
+    
+    .editor {
+        min-height: 200px;
+    }
+    
+    .dialog {
+        width: 95%;
+    }
+}

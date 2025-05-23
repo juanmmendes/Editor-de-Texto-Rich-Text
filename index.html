@@ -1,13 +1,198 @@
 <!DOCTYPE html>
-<html lang='pt-BR'>
+<html lang="pt-BR">
 <head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>Editor de Texto Rich Text</title>
-    <link rel='stylesheet' href='style.css'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Texto Rico</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Fonte Roboto do Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Ícones do Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
-<body>
-    <!-- �rea do editor -->
-    <script src='script.js'></script>
+<body class="light-mode">
+    <div class="container">
+        <header class="app-header">
+            <h1 class="app-title">Editor de Texto Rico</h1>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Alternar tema claro/escuro">
+                <span class="material-icons" id="theme-icon">dark_mode</span>
+            </button>
+        </header>
+
+        <main class="editor-container">
+            <div class="toolbar" role="toolbar" aria-label="Barra de ferramentas de formatação">
+                <!-- Grupo de formatação de texto -->
+                <div class="toolbar-group">
+                    <button class="toolbar-btn" id="bold" aria-label="Negrito" title="Negrito (Ctrl+B)">
+                        <span class="material-icons">format_bold</span>
+                    </button>
+                    <button class="toolbar-btn" id="italic" aria-label="Itálico" title="Itálico (Ctrl+I)">
+                        <span class="material-icons">format_italic</span>
+                    </button>
+                    <button class="toolbar-btn" id="underline" aria-label="Sublinhado" title="Sublinhado (Ctrl+U)">
+                        <span class="material-icons">format_underlined</span>
+                    </button>
+                    <button class="toolbar-btn" id="font-size-increase" aria-label="Aumentar fonte" title="Aumentar fonte">
+                        <span class="material-icons">text_increase</span>
+                    </button>
+                    <button class="toolbar-btn" id="font-size-decrease" aria-label="Diminuir fonte" title="Diminuir fonte">
+                        <span class="material-icons">text_decrease</span>
+                    </button>
+                    <div class="dropdown">
+                        <button class="toolbar-btn dropdown-toggle" id="font-family-dropdown" aria-haspopup="true" aria-expanded="false" title="Fonte">
+                            <span class="material-icons">font_download</span>
+                            <span class="dropdown-icon material-icons">arrow_drop_down</span>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="font-family-dropdown">
+                            <button class="dropdown-item" id="font-roboto">Roboto</button>
+                            <button class="dropdown-item" id="font-arial">Arial</button>
+                            <button class="dropdown-item" id="font-times">Times New Roman</button>
+                            <button class="dropdown-item" id="font-courier">Courier New</button>
+                            <button class="dropdown-item" id="font-georgia">Georgia</button>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="toolbar-btn dropdown-toggle" id="text-color-dropdown" aria-haspopup="true" aria-expanded="false" title="Cor do texto">
+                            <span class="material-icons">format_color_text</span>
+                            <span class="dropdown-icon material-icons">arrow_drop_down</span>
+                        </button>
+                        <div class="dropdown-menu color-dropdown-menu" aria-labelledby="text-color-dropdown">
+                            <button class="color-item" id="color-black" style="background-color: #000000;" title="Preto"></button>
+                            <button class="color-item" id="color-red" style="background-color: #FF0000;" title="Vermelho"></button>
+                            <button class="color-item" id="color-blue" style="background-color: #0000FF;" title="Azul"></button>
+                            <button class="color-item" id="color-green" style="background-color: #008000;" title="Verde"></button>
+                            <button class="color-item" id="color-purple" style="background-color: #800080;" title="Roxo"></button>
+                            <button class="color-item" id="color-orange" style="background-color: #FFA500;" title="Laranja"></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Grupo de desfazer/refazer -->
+                <div class="toolbar-group">
+                    <button class="toolbar-btn" id="undo" aria-label="Desfazer" title="Desfazer (Ctrl+Z)">
+                        <span class="material-icons">undo</span>
+                    </button>
+                    <button class="toolbar-btn" id="redo" aria-label="Refazer" title="Refazer (Ctrl+Y)">
+                        <span class="material-icons">redo</span>
+                    </button>
+                </div>
+
+                <!-- Grupo de alinhamento -->
+                <div class="toolbar-group">
+                    <button class="toolbar-btn" id="align-left" aria-label="Alinhar à esquerda" title="Alinhar à esquerda">
+                        <span class="material-icons">format_align_left</span>
+                    </button>
+                    <button class="toolbar-btn" id="align-center" aria-label="Centralizar" title="Centralizar">
+                        <span class="material-icons">format_align_center</span>
+                    </button>
+                    <button class="toolbar-btn" id="align-right" aria-label="Alinhar à direita" title="Alinhar à direita">
+                        <span class="material-icons">format_align_right</span>
+                    </button>
+                    <button class="toolbar-btn" id="align-justify" aria-label="Justificar" title="Justificar">
+                        <span class="material-icons">format_align_justify</span>
+                    </button>
+                </div>
+                
+                <!-- Grupo de imagens -->
+                <div class="toolbar-group">
+                    <button class="toolbar-btn" id="insert-image" aria-label="Inserir imagem" title="Inserir imagem">
+                        <span class="material-icons">image</span>
+                    </button>
+                </div>
+
+                <!-- Grupo de títulos e listas -->
+                <div class="toolbar-group">
+                    <div class="dropdown">
+                        <button class="toolbar-btn dropdown-toggle" id="heading-dropdown" aria-haspopup="true" aria-expanded="false" title="Títulos">
+                            <span class="material-icons">title</span>
+                            <span class="dropdown-icon material-icons">arrow_drop_down</span>
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="heading-dropdown">
+                            <button class="dropdown-item" id="h1">Título 1 (H1)</button>
+                            <button class="dropdown-item" id="h2">Título 2 (H2)</button>
+                            <button class="dropdown-item" id="h3">Título 3 (H3)</button>
+                            <button class="dropdown-item" id="p">Parágrafo</button>
+                        </div>
+                    </div>
+                    <button class="toolbar-btn" id="ordered-list" aria-label="Lista ordenada" title="Lista ordenada">
+                        <span class="material-icons">format_list_numbered</span>
+                    </button>
+                    <button class="toolbar-btn" id="unordered-list" aria-label="Lista não ordenada" title="Lista não ordenada">
+                        <span class="material-icons">format_list_bulleted</span>
+                    </button>
+                </div>
+
+
+            </div>
+
+            <!-- Área editável -->
+            <div class="editor-wrapper">
+                <div id="editor" class="editor" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Área de edição de texto" spellcheck="true">
+                    <p>Comece a digitar seu texto aqui...</p>
+                </div>
+            </div>
+
+            <!-- Barra de ações -->
+            <div class="action-bar">
+                <div class="export-options">
+                    <button id="export-html" class="action-btn">Exportar HTML</button>
+                    <button id="export-markdown" class="action-btn">Exportar Markdown</button>
+                    <button id="export-pdf" class="action-btn">Exportar PDF</button>
+                </div>
+                <div class="status-info">
+                    <span id="char-count">0 caracteres</span>
+                </div>
+            </div>
+        </main>
+
+        <!-- Diálogo para inserção de link -->
+        <div id="link-dialog" class="dialog" aria-hidden="true">
+            <div class="dialog-content">
+                <h2 class="dialog-title">Inserir Link</h2>
+                <div class="dialog-body">
+                    <label for="link-url">URL:</label>
+                    <input type="url" id="link-url" placeholder="https://exemplo.com" required>
+                    <label for="link-text">Texto do link:</label>
+                    <input type="text" id="link-text" placeholder="Texto a ser exibido">
+                </div>
+                <div class="dialog-footer">
+                    <button id="cancel-link" class="dialog-btn cancel-btn">Cancelar</button>
+                    <button id="insert-link" class="dialog-btn confirm-btn">Inserir</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Diálogo para inserção de imagem -->
+        <div id="image-dialog" class="dialog" aria-hidden="true">
+            <div class="dialog-content">
+                <h2 class="dialog-title">Inserir Imagem</h2>
+                <div class="dialog-body">
+                    <label for="image-url">URL da imagem:</label>
+                    <input type="url" id="image-url" placeholder="https://exemplo.com/imagem.jpg">
+                    <p class="dialog-separator">ou</p>
+                    <label for="image-upload" class="file-upload-label">Selecionar imagem do computador</label>
+                    <input type="file" id="image-upload" accept="image/*" class="file-upload-input">
+                    <div id="image-preview" class="image-preview"></div>
+                    <label for="image-alt">Texto alternativo:</label>
+                    <input type="text" id="image-alt" placeholder="Descrição da imagem">
+                </div>
+                <div class="dialog-footer">
+                    <button id="cancel-image" class="dialog-btn cancel-btn">Cancelar</button>
+                    <button id="insert-image-btn" class="dialog-btn confirm-btn">Inserir</button>
+                </div>
+            </div>
+        </div>
+
+        <footer class="app-footer">
+            <p>Editor de Texto Rico &copy; 2025 | <kbd>Ctrl</kbd>+<kbd>B</kbd>: Negrito | <kbd>Ctrl</kbd>+<kbd>I</kbd>: Itálico | <kbd>Ctrl</kbd>+<kbd>U</kbd>: Sublinhado | <kbd>Ctrl</kbd>+<kbd>Z</kbd>: Desfazer | <kbd>Ctrl</kbd>+<kbd>Y</kbd>: Refazer</p>
+        </footer>
+    </div>
+
+    <!-- Overlay para diálogos -->
+    <div id="overlay" class="overlay" aria-hidden="true"></div>
+
+    <script src="js/script.js"></script>
 </body>
 </html>
